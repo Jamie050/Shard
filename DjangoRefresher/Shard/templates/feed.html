@@ -1,0 +1,31 @@
+{% if user.is_authenticated %}
+   <form method='POST' enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type='Submit' value='Submit'/>
+   </form>
+{% endif %}
+
+{% for post in posts %}
+     <div class='box'>
+       <div class="box-left">
+            <img src="{{post.author.avatar.url}}" width="200" height="200">
+            <h1><a href="{% url 'profile' post.author.user.profile.id %}"> <b>{{post.author | upper }}</b></a></h1>
+       </div>
+       <div class="box-mid">
+            <h1><b>{{post.title |upper}}</b></h1>
+            <p>{{post.text}}</p>
+            {% if post.image %}
+              <img src="{{post.image.url}}" width="600">
+            {% endif %}
+            <p><a href="{% url 'post-comments' post.id %}">Comment</a><p>
+            {% if user.is_authenticated and user.id == post.author.id%}
+               <p><a href="{% url 'edit-post' post.id %}">Edit</a>  <a href="{% url 'delete-post' post.id %}">Delete</a></p>
+            {% endif %}
+            <p><small>Posted {{post.created |timesince}} ago</small></p>
+       </div>
+       <div class="box-left">
+       </div>
+     </div>
+{% endfor %}
+

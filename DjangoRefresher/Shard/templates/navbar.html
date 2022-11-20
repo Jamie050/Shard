@@ -1,0 +1,20 @@
+<div class="nav">
+    {% load static %}
+    <h1><a href="/"><img src="{% static 'image/SHARD.png' %}"></a></h1>
+
+    {% if user.is_authenticated %}
+      <h1>Logged in as <a href="{% url 'profile' user.profile.id %}"><b>{{user.username |upper }}</b></a>  <br> <a href="{% url 'logout' %}">Logout</a></h1>
+    {% else %} 
+
+    <h1>Not logged in <a href="{% url 'login' %}">Login</a>  <a href="{% url 'register' %}">Register</a></h1>
+    {% endif %}
+
+    {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+    {% endif %}
+
+</div>

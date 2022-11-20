@@ -1,0 +1,16 @@
+{% extends 'core.html' %}
+
+
+{% block title %}
+Feed
+{% endblock title %}
+
+
+
+{% block body %}
+      <form method="Post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type='submit' value='Submit'/>
+      </form>
+{% endblock body%}

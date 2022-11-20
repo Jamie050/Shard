@@ -1,0 +1,55 @@
+{% extends 'core.html' %}
+
+
+{% block title %}
+Comments
+{% endblock title %}
+
+
+
+{% block body %}
+      <div class='box'>
+            <div class="box-left">
+            <img src="{{post.author.avatar.url}}" width="200" height="200">
+            <h1><a href="{% url 'profile' post.author.user.profile.id %}"> <b>{{post.author | upper }}</b></a></h1>
+            </div>
+            <div class="box-mid">
+            <h1><b>{{post.title |upper}}</b></h1>
+            <p>{{post.text}}</p>
+            {% if post.image %}
+                  <img src="{{post.image.url}}">
+            {% endif %}
+            <p><small>Posted {{post.created |timesince}} ago</small></p>
+            </div>
+            <div class="box-left">
+            </div>
+      </div>
+      <div class='comment-container'>
+            <div>
+                  {% if request.user.is_authenticated %}
+                        <form method='POST'>
+                              {% csrf_token %}
+                              {{ form.as_p }}
+                              <input type='submit' value='Submit'/>
+                        </form>
+                  {% endif %}
+                  {% for comment in comments %}
+                        <div class='box'>
+                              <div  class='box-left'>
+                                    <img src="{{comment.author.avatar.url}}" width="200" height="200">
+                                    <h2><a href="{% url 'profile' comment.author.id %}">{{comment.author.user.username}}</a></h2>
+                              </div>
+                              <div class='box-right'>
+                                    <p>{{comment.text}}</p>
+                              </div>
+                        </div>
+                  {% endfor %}
+            </div>
+            <div class="color_div">
+                  <h1>Other Commentors</h1>
+                  {% for commentor in commentors %}
+                        <h1><a href="{% url 'profile' commentor.id %}">{{ commentor.username }}</a></h1>
+                  {% endfor %}
+            </div>
+      <div>
+{% endblock body%}
